@@ -13,13 +13,12 @@ usersRouter.route('/')
 //Get Users
 .get((req,res,next)=>{
   Users.find({}).then((users)=>{
+    res.setHeader('content-type', 'aplication/json');
     res.status(200).send({
       success: true,
       message: "Users retrieved successfully",
       users: users
     });
-    res.setHeader('content-type', 'aplication/json');
-    res.json(users)
   })
   .catch((err)=>{
     res.status(404).send({
@@ -29,6 +28,36 @@ usersRouter.route('/')
     });
   })
 })
+
+//Create user
+.post((req,res,next)=>{
+    Users.create(req.body).then((user) =>{
+      res.status(200).send({
+        success: true,
+        message: 'User created successfully',
+        user: user
+      });
+    }).catch((err)=>{
+      res.status(400).send({
+        success:false,
+        message: 'something went wrong, Error',
+        error: err
+      })
+    })
+})
+
+//Update Users
+.put((req,res)=>{
+  res.status(403).send({
+    success: true,
+    message: 'PUT Operations aren\'t allowed in Users'
+  })
+})
+
+//Delete Users - !! warning this will delete all users from collection !!
+
+
+
 
 
 

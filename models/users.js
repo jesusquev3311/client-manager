@@ -43,7 +43,7 @@ const usersSchema = new Schema({
         default: 'broker'
     }
 }, {
-    timestamp: true
+    timestamps: true
 });
 
 let Users = mongoose.model('user', usersSchema);

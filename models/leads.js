@@ -81,7 +81,7 @@ const leadsSchema = new Schema({
         default: 'Started'
     }
 }, {
-    timestamp: true
+    timestamps: true
 });
 
 let Leads = mongoose.model('lead', leadsSchema);

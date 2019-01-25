@@ -81,7 +81,7 @@ const clientsSchema = new Schema({
         default: 'Good'
     }
 }, {
-    timestamp: true
+    timestamps: true
 });
 
 let Clients = mongoose.model('client', clientsSchema);
