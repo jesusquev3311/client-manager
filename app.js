@@ -10,15 +10,11 @@ const cors = require('cors');
 const url = 'mongodb://localhost:27017/capstone';
 
 //connection to Mongo Database
-const connect = mongoose.connect(url);
+const connect = mongoose.connect(url,{ useNewUrlParser: true });
 
 connect.then((db)=>{
   console.log('Connected Correctly to server ', db);
 }).catch(err => console.log(err));
-
-
-
-
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');

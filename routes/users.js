@@ -1,9 +1,36 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const Users = require('../models/users');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const usersRouter = express.Router();
 
-module.exports = router;
+usersRouter.use(express.json());
+
+//SETTING THE METHODS REQUEST
+
+//defining the route
+usersRouter.route('/')
+
+//Get Users
+.get((req,res,next)=>{
+  Users.find({}).then((users)=>{
+    res.status(200).send({
+      success: true,
+      message: "Users retrieved successfully",
+      users: users
+    });
+    res.setHeader('content-type', 'aplication/json');
+    res.json(users)
+  })
+  .catch((err)=>{
+    res.status(404).send({
+      success: false,
+      message: "Users not Found",
+      error: err
+    });
+  })
+})
+
+
+
+
+module.exports = usersRouter;
