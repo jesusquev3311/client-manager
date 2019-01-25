@@ -7,10 +7,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 //database URL
-const url = 'mongodb://localhost:27017/capston';
+const url = 'mongodb://localhost:27017/capstone';
 
 //connection to Mongo Database
-//const connect = mongoose.connect(url);
+const connect = mongoose.connect(url);
+
+connect.then((db)=>{
+  console.log('Connected Correctly to server ', db);
+}).catch(err => console.log(err));
 
 
 
