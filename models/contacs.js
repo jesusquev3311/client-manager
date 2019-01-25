@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.schema;
 
-const usersSchema = new Schema({
+const contacsSchema = new Schema({
     name : {
         type: String,
         required: true,
@@ -32,18 +32,13 @@ const usersSchema = new Schema({
     country:{
         type: String,
         required: true
-    },
-    type: {
-        type: String,
-        required: true,
-        default: 'broker'
     }
 }, {
     timestamp: true
 });
 
-let Users = mongoose.model('user', usersSchema);
-module.exports = Users;
+let Contacts = mongoose.model('contact', usersSchema);
+module.exports = Contacts;
 
 
 
