@@ -71,6 +71,65 @@ usersRouter.route('/')
   })
 })
 
+// User Methods
+
+usersRouter.route('/:userId')
+
+//Get one user
+.get((req,res,next)=>{
+  //get the userId
+  const userId = req.params.userId;
+  Users.findById(userId).then((user)=>{
+    res.status(200).send({
+      success: true,
+      message: `User name: ${user.name} - ID: ${user._id} retrieved successfully`,
+      user: user
+    })
+  }).catch((err)=>{
+    res.status(404).send({
+      success:false,
+      message: `User with ID: ${userId} Not Found !`,
+      error: err
+    })
+  })
+})
+// Update One User
+.put((req,res,next)=>{
+  //get user Id
+  const userId = req.params.userId;
+  Users.findByIdAndUpdate(userId, { $set: req.body } ,{new: true})
+  .then((user)=>{
+    res.status(200).send({
+      success: true,
+      message: `User with ID: ${userId} updated`,
+      update: user
+    })
+    .catch((err)=>{
+      res.status(404).send({
+        success: false,
+        message: "User Not Found",
+        error: err
+      })
+    });
+  })
+})
+
+//Delete One User
+.delete((req,res,next)=>{
+  const userId = req.params.userId;
+  Users.findByIdAndRemove(userId).then((response)=>{
+    res.status(200).send({
+      success: true,
+      message: `User with ID: ${userId} Deleted successfully !!`
+    });
+  }).catch((err)=>{
+    res.status(404).send({
+      success: false,
+      message: `User with ID: ${userId} Not Found`,
+      error: err
+    })
+  })
+})
 
 
 
