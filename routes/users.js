@@ -55,7 +55,21 @@ usersRouter.route('/')
 })
 
 //Delete Users - !! warning this will delete all users from collection !!
-
+.delete((req, res, next)=>{
+  Users.remove({}).then((response)=>{
+    res.status(200).send({
+      success: true,
+      message: 'Users Deleted Successfully'
+    });
+  })
+  .catch((err)=>{
+    res.status(400).send({
+      success: false,
+      message: 'Couldn\'t delete Users, something went wrong !!',
+      error: err
+    })
+  })
+})
 
 
 
