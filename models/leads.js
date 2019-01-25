@@ -39,7 +39,7 @@ const productsSchema = new Schema({
 
 });
 
-const clientsSchema = new Schema({
+const leadsSchema = new Schema({
     name : {
         type: String,
         required: true,
@@ -78,14 +78,14 @@ const clientsSchema = new Schema({
     status:{
         type: String,
         required: true,
-        default: 'Good'
+        default: 'Started'
     }
 }, {
     timestamp: true
 });
 
-let Clients = mongoose.model('client', clientsSchema);
-module.exports = Clients;
+let Leads = mongoose.model('lead', leadsSchema);
+module.exports = Leads;
 
 
 
