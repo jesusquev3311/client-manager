@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.schema;
 
-const contacsSchema = new Schema({
+const contactsSchema = new Schema({
     name : {
         type: String,
         required: true,
@@ -37,7 +37,7 @@ const contacsSchema = new Schema({
     timestamp: true
 });
 
-let Contacts = mongoose.model('contact', usersSchema);
+let Contacts = mongoose.model('contact', contactsSchema);
 module.exports = Contacts;
 
 
