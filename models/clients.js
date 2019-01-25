@@ -3,14 +3,37 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.schema;
 
-const usersSchema = new Schema({
+const userbroker = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    userId:{
+        type: String,
+        required: true
+    }
+});
+
+const productsSchema = new Schema({
+    name:{
+        type: String,
+        required: true,
+        unique: true
+    },
+    description:{
+        type: string,
+        required: true
+    },
+    price:{
+        
+    }
+
+});
+
+const clientsSchema = new Schema({
     name : {
         type: String,
         required: true,
-    },
-    image:{
-        type: String,
-        required: false
     },
     email: {
         type: String,
@@ -37,17 +60,20 @@ const usersSchema = new Schema({
         type: String,
         required: true
     },
-    type: {
+    broker:userbroker,
+    company:{
         type: String,
-        required: true,
-        default: 'broker'
-    }
+        required: false
+    },
+
+
+    
 }, {
     timestamp: true
 });
 
-let Users = mongoose.model('user', usersSchema);
-module.exports = Users;
+let Clients = mongoose.model('client', clientsSchema);
+module.exports = Clients;
 
 
 
