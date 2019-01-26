@@ -2,9 +2,9 @@
 
 const mongoose = require('mongoose');
 //adding the currency type to mongoose 
-require('mongoose-currency').loadType(moongose);
-const currency = moongose.Types.Currency
-const Schema = mongoose.schema;
+require('mongoose-currency').loadType(mongoose);
+const currency = mongoose.Types.Currency
+const Schema = mongoose.Schema;
 
 const userbroker = new Schema({
     name: {
@@ -24,7 +24,7 @@ const productsSchema = new Schema({
         unique: true
     },
     description:{
-        type: string,
+        type: String,
         required: true
     },
     price:{
@@ -43,6 +43,10 @@ const clientsSchema = new Schema({
     name : {
         type: String,
         required: true,
+    },
+    image : {
+        type: String,
+        required: false,
     },
     email: {
         type: String,

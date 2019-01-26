@@ -18,6 +18,7 @@ connect.then((db)=>{
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const clientsRouter = require('./routes/clients');
 
 const app = express();
 
@@ -59,6 +60,7 @@ function auth (req, res, next) {
 app.use(auth);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/clients', clientsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
