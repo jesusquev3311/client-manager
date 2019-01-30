@@ -140,8 +140,8 @@ clientsRouter.route('/:clientId/brokers')
   Clients.findById(clientId).then((client)=>{
     res.status(200).send({
       success: true,
-      message: `Client name: ${client.name} - ID: ${client._id} - broker: ${client.broker} retrieved successfully`,
-      client: client
+      message: `Client name: ${client.name} - ID: ${client._id} - brokers retrieved successfully`,
+      Brokers: client.brokers
     })
   }).catch((err)=>{
     res.status(404).send({
@@ -153,7 +153,7 @@ clientsRouter.route('/:clientId/brokers')
 })
 
 //Post Brokers
-//Create client
+//Create client broker
 .post((req,res,next)=>{
   const clientId = req.params.clientId;
   Clients.findById(clientId).then((client) =>{
@@ -167,6 +167,33 @@ clientsRouter.route('/:clientId/brokers')
       success:false,
       message: 'Client Not Found',
       error: err
+    })
+  })
+})
+
+//Update Brokers
+.put((req,res)=>{
+  res.status(403).send({
+    success: true,
+    message: 'PUT Operations aren\'t allowed in Clients brokers'
+  })
+})
+
+//Delete Client's Brokers
+.delete((req,res,next)=>{
+  const clientId = req.params.clientId;
+  Clients.findById(clientId).then((client)=>{
+    res.status(200).send({
+      success:true,
+      message: 'Brokers removed',
+      brokers: client.brokers = []
+    })
+    client.save();
+  }).catch((err)=>{
+    res.status(404).send({
+      success:false,
+      message: 'Error',
+      err
     })
   })
 })
