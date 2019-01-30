@@ -77,9 +77,9 @@ clientsRouter.route('/:clientId')
 
 //Get one Client
 .get((req,res,next)=>{
-  //get the clienId
-  const clienId = req.params.clienId;
-  Clients.findById(clienId).then((client)=>{
+  //get the clientId
+  const clientId = req.params.clientId;
+  Clients.findById(clientId).then((client)=>{
     res.status(200).send({
       success: true,
       message: `Client name: ${client.name} - ID: ${client._id} retrieved successfully`,
@@ -88,7 +88,7 @@ clientsRouter.route('/:clientId')
   }).catch((err)=>{
     res.status(404).send({
       success:false,
-      message: `client with ID: ${clienId} Not Found !`,
+      message: `client with ID: ${clientId} Not Found !`,
       error: err
     })
   })
@@ -96,12 +96,12 @@ clientsRouter.route('/:clientId')
 // Update One Client
 .put((req,res,next)=>{
   //get client Id
-  const clienId = req.params.clienId;
-  Clients.findByIdAndUpdate(clienId, { $set: req.body } ,{new: true})
+  const clientId = req.params.clientId;
+  Clients.findByIdAndUpdate(clientId, { $set: req.body } ,{new: true})
   .then((client)=>{
     res.status(200).send({
       success: true,
-      message: `client with ID: ${clienId} updated`,
+      message: `client with ID: ${clientId} updated`,
       update: client
     })
     .catch((err)=>{
@@ -116,16 +116,56 @@ clientsRouter.route('/:clientId')
 
 //Delete One Client
 .delete((req,res,next)=>{
-  const clienId = req.params.clienId;
-  Clients.findByIdAndRemove(clienId).then((response)=>{
+  const clientId = req.params.clientId;
+  Clients.findByIdAndRemove(clientId).then((response)=>{
     res.status(200).send({
       success: true,
-      message: `client with ID: ${clienId} Deleted successfully !!`
+      message: `client with ID: ${clientId} Deleted successfully !!`
     });
   }).catch((err)=>{
     res.status(404).send({
       success: false,
-      message: `client with ID: ${clienId} Not Found`,
+      message: `client with ID: ${clientId} Not Found`,
+      error: err
+    })
+  })
+})
+
+//Client's Brokers
+clientsRouter.route('/:clientId/brokers')
+
+//Get brokers
+.get((req,res,next)=>{
+  const clientId = req.params.clientId;
+  Clients.findById(clientId).then((client)=>{
+    res.status(200).send({
+      success: true,
+      message: `Client name: ${client.name} - ID: ${client._id} - broker: ${client.broker} retrieved successfully`,
+      client: client
+    })
+  }).catch((err)=>{
+    res.status(404).send({
+      success:false,
+      message: `client with ID: ${clientId} Not Found !`,
+      error: err
+    })
+  })
+})
+
+//Post Brokers
+//Create client
+.post((req,res,next)=>{
+  const clientId = req.params.clientId;
+  Clients.findById(clientId).then((client) =>{
+    res.status(200).send({
+      success: true,
+      message: 'Client created successfully',
+      broker: client.brokers.push(req.body)
+    });
+  }).catch((err)=>{
+    res.status(404).send({
+      success:false,
+      message: 'Client Not Found',
       error: err
     })
   })

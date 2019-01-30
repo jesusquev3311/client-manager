@@ -8,7 +8,7 @@ const cors = require('cors');
 
 //database URL
 //local
-const url = 'mongodb://root:root@10.128.10.86:27017/capstone';
+const url = 'mongodb://127.0.0.1:27017/capstone';
 
 
 //connection to Mongo Database
@@ -25,11 +25,11 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
     connect = mongoose.connect(urmongodb_connection_stringl,{ useNewUrlParser: true });
 } else {
   connect = mongoose.connect(url,{ useNewUrlParser: true });
-  console.log('no agarró la vaina');
+  console.log('Entorno Local')
 }
 
 connect.then((db)=>{
-  console.log('Connected Correctly to server ', db);
+  console.log('!! --> Connected Correctly to Database Server <-- !!');
 }).catch(err => console.log(err));
 
 const indexRouter = require('./routes/index');

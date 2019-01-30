@@ -73,7 +73,7 @@ const clientsSchema = new Schema({
         type: String,
         required: true
     },
-    broker:userbroker,
+    brokers:[userbroker],
     company:{
         type: String,
         required: false
