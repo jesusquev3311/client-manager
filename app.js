@@ -8,7 +8,7 @@ const cors = require('cors');
 
 //database URL
 //local
-const url = 'mongodb://127.0.0.1:27017/capstone';
+const url = 'mongodb://root:codigo=3311@127.0.0.1:27017/capstone';
 
 
 //connection to Mongo Database
