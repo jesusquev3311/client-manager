@@ -9,11 +9,18 @@ const cors = require('cors');
 //database URL
 //local
 const url = 'mongodb://127.0.0.1:27017/capstone';
-//production
-const url = 'mongodb://127.0.0.1:27017/capstone';
+
 
 //connection to Mongo Database
-const connect = mongoose.connect(url,{ useNewUrlParser: true });
+let connect = '';
+
+//production
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+  mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + db_name;
+  connect = mongoose.connect(urmongodb_connection_stringl,{ useNewUrlParser: true });
+} else {
+  connect = mongoose.connect(url,{ useNewUrlParser: true });
+}
 
 connect.then((db)=>{
   console.log('Connected Correctly to server ', db);
