@@ -25,6 +25,7 @@ if(process.env.OPENSHIFT_MONGODB_DB_PASSWORD){
     connect = mongoose.connect(urmongodb_connection_stringl,{ useNewUrlParser: true });
 } else {
   connect = mongoose.connect(url,{ useNewUrlParser: true });
+  console.log('no agarró la vaina');
 }
 
 connect.then((db)=>{
