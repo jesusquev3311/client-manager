@@ -192,7 +192,7 @@ clientsRouter.route('/:clientId/brokers')
   }).catch((err)=>{
     res.status(404).send({
       success:false,
-      message: 'Error',
+      message: 'Something went wrong - please try again',
       err
     })
   })
