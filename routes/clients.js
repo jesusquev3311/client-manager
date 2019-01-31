@@ -69,7 +69,7 @@ clientsRouter.route('/')
       error: err
     })
   })
-})
+});
 
 // Clients Methods
 
@@ -157,10 +157,27 @@ clientsRouter.route('/:clientId/brokers')
 .post((req,res,next)=>{
   const clientId = req.params.clientId;
   Clients.findById(clientId).then((client) =>{
-    res.status(200).send({
-      success: true,
-      message: 'Client created successfully',
-      broker: client.brokers.push(req.body)
+    client.brokers.push(req.body);
+    if(!req.body.name){
+        res.status(401).send({
+            success:false,
+            message: 'Broker\'s name is required'
+        })
+    } else if(!req.body.userId){
+        res.status(401).send({
+            success:false,
+            message: 'Broker\'s userId is required'
+        })
+    }
+    client.save().then((broker) =>{
+        res.status(200).send({
+            success: true,
+            message: 'Client created successfully',
+            broker: broker
+        });
+    }).catch((err)=>{
+        console.log(err);
+
     });
   }).catch((err)=>{
     res.status(404).send({
@@ -170,7 +187,6 @@ clientsRouter.route('/:clientId/brokers')
     })
   })
 })
-
 //Update Brokers
 .put((req,res)=>{
   res.status(403).send({
@@ -183,20 +199,65 @@ clientsRouter.route('/:clientId/brokers')
 .delete((req,res,next)=>{
   const clientId = req.params.clientId;
   Clients.findById(clientId).then((client)=>{
-    res.status(200).send({
-      success:true,
-      message: 'Brokers removed',
-      brokers: client.brokers = []
-    })
-    client.save();
+    if (client) {
+      client.brokers = [];
+      client.save().then((response)=>{
+        res.status(200).send({
+            success:true,
+            message: 'Brokers removed',
+            response
+        });
+      })
+
+    }
   }).catch((err)=>{
     res.status(404).send({
       success:false,
       message: 'Something went wrong - please try again',
       err
     })
-  })
-})
+  });
+
+});
+
+//Clients Single Broker
+clientsRouter.route('/:clientId/brokers/:userId')
+
+//get One Client's Broker
+    .get((req,res,next)=>{
+      //get the client's ID
+      const clientId = req.params.clientId;
+      //get the brokers ID
+      const userId = req.params.userId;
+
+      Clients.findById(clientId).then((client)=>{
+          console.log(userId);
+          if (client && client.brokers.id(userId)){
+          res.status(200).send({
+            success: true,
+            message: `Broker found successfully`,
+            broker: client.brokers.id(userId)
+          })
+        } else if(!client) {
+          res.status(404).send({
+            success: false,
+            message: `Client with ID ${clientId} Not Found`,
+          })
+        } else {
+          res.status(404).send({
+            success: false,
+            message: `Broker with ID ${userId} Not Found`
+          })
+        }
+      }).catch((err)=>{
+        res.status(400).send({
+          success: false,
+          messega: 'Something Went Wrong',
+          err
+        })
+      })
+    })
+
 
 
 
