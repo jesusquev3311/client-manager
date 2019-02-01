@@ -1,10 +1,11 @@
 // USERS DATABASE SCHEMA
 
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 //adding the currency type to mongoose 
 require('mongoose-currency').loadType(mongoose);
-const currency = mongoose.Types.Currency
-const Schema = mongoose.Schema;
+const Currency = mongoose.Types.Currency;
+
 
 const userbroker = new Schema({
     name: {
@@ -17,7 +18,7 @@ const userbroker = new Schema({
     }
 });
 
-const productsSchema = new Schema({
+const userProducts = new Schema({
     name:{
         type: String,
         required: true,
@@ -28,7 +29,7 @@ const productsSchema = new Schema({
         required: true
     },
     price:{
-        type: currency,
+        type: Number,
         required: true
     },
     quantity:{
@@ -36,7 +37,6 @@ const productsSchema = new Schema({
         required: true,
         default: 0
     }
-
 });
 
 const clientsSchema = new Schema({
@@ -78,7 +78,7 @@ const clientsSchema = new Schema({
         type: String,
         required: false
     },
-    products:[productsSchema],
+    products:[userProducts],
     status:{
         type: String,
         required: true,

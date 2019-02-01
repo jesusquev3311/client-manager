@@ -306,19 +306,19 @@ clientsRouter.route('/:clientId/brokers/:userId')
     })
 
     //Delete One Client
-    .delete((req,res,next)=>{
+    .delete((req, res, next) => {
         const clientId = req.params.clientId;
-        Clients.findById(clientId).then((client)=>{
+        Clients.findById(clientId).then((client) => {
             const userId = req.params.userId;
-            if (client && client.brokers.id(userId)){
+            if (client && client.brokers.id(userId)) {
                 client.brokers.id(userId).remove();
-                client.save().then((broker)=>{
+                client.save().then((broker) => {
                     res.status(200).send({
                         success: true,
                         message: `Client's broker with ID: ${userId} deleted`,
                         broker
                     })
-                }).catch((err)=>{
+                }).catch((err) => {
                     res.status(400).send({
                         success: false,
                         message: 'Something Went Wrong',
@@ -335,25 +335,214 @@ clientsRouter.route('/:clientId/brokers/:userId')
     });
 
 //Client's Products
-Clients.route('/:clientId/products')
+clientsRouter.route('/:clientId/products')
 
 //Get all products
-    .get((req,res,next)=>{
-    const clientId = req.params.clientId;
+    .get((req, res, next) => {
+        const clientId = req.params.clientId;
 
-    Clients.findById(clientId).then((client)=>{
-        res.status(200).send({
-            success: true,
-            message: 'Client\'s products retrieved',
-            products: client.products
-        })
-    }).catch((err)=>{
-        res.status(404).send({
-            success: false,
-            message: 'Client not Found'
+        Clients.findById(clientId).then((client) => {
+            res.status(200).send({
+                success: true,
+                message: 'Client\'s products retrieved',
+                products: client.products
+            })
+        }).catch((err) => {
+            res.status(404).send({
+                success: false,
+                message: 'Client not Found'
+            })
         })
     })
-});
+//Post product
+    .post((req,res,next)=>{
+        const clientId = req.params.clientId;
+
+        Clients.findById(clientId).then((client) => {
+            if (client){
+                client.products.push(req.body);
+
+                console.log('Id: ', client.id);
+                client.save().then((product) => {
+
+                    res.status(200).send({
+                        success: true,
+                        message:'Product added correctly',
+                        products: product.products
+                    })
+                })
+                    .catch((err)=>{
+                    res.status(400).send({
+                        success:false,
+                        message: 'Something went wrong',
+                        err
+                    })
+                })
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: `Client ID : ${clientId} Not Found`
+                })
+            }
+        })
+    })
+
+//Update Products
+    .put((req,res,next)=>{
+        res.status(403).send({
+            success: true,
+            message: 'PUT Operations aren\'t allowed in Clients products'
+        })
+    })
+//Delete Products
+    .delete((req,res,next)=>{
+        const clientId = req.params.clientId;
+        Clients.findById(clientId).then((client)=>{
+            if(client){
+                client.products = [];
+                client.save().then((response)=>{
+                    res.status(200).send({
+                        success:true,
+                        message: 'CLient\'s Products Deleted Successfully',
+                        response
+                    })
+                }).catch((err)=>{
+                    res.status(400).send({
+                        success:false,
+                        message: 'Something went worng, please try again',
+                        err
+                    })
+                })
+            } else {
+                res.status(404).send({
+                    success:false,
+                    message: `Client with ID ${clientId} not Found`,
+                })
+            }
+
+        })
+    });
+
+//Clients Single Broker
+clientsRouter.route('/:clientId/products/:productId')
+
+//get One Client's Broker
+    .get((req, res, next) => {
+        //get the client's ID
+        const clientId = req.params.clientId;
+        //get the brokers ID
+        const productId = req.params.productId;
+
+        Clients.findById(clientId).then((client) => {
+
+            if (client && client.products.id(productId)) {
+                res.status(200).send({
+                    success: true,
+                    message: `Product found successfully`,
+                    Product: client.products.id(productId)
+                })
+            } else if (!client) {
+                res.status(404).send({
+                    success: false,
+                    message: `Client with ID ${clientId} Not Found`,
+                })
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: `Product with ID ${userId} Not Found`
+                })
+            }
+        }).catch((err) => {
+            res.status(400).send({
+                success: false,
+                messega: 'Something Went Wrong',
+                err
+            })
+        })
+    })
+
+    //Post Broker
+    .post((req, res) => {
+        res.status(403).send({
+            success: true,
+            message: 'Post Operations aren\'t allowed in Client\'s Product'
+        })
+    })
+
+    //Update single Broker
+    .put((req, res, next) => {
+        const clientId = req.params.clientId;
+        Clients.findById(clientId).then((client) => {
+            const productId = req.params.productId;
+            if (client && client.products.id(productId)) {
+                if (req.body.name) {
+                    client.products.id(productId).name = req.body.name
+                }
+                if (req.body.description) {
+                    client.products.id(productId).description = req.body.description
+                }
+                if (req.body.price) {
+                    client.products.id(productId).price = req.body.price
+                }
+                if (req.body.quantity) {
+                    client.products.id(productId).quantity = req.body.quantity
+                }
+                client.save().then((result) => {
+                    res.status(200).send({
+                        success: true,
+                        message: 'Product updated',
+                        Product: result.products.id(productId)
+                    })
+                }).catch((err) => {
+                    res.status(401).send({
+                        success: false,
+                        message: 'Please check the info - something went wrong',
+                        err
+                    })
+                })
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: 'Client or Product no Found'
+                })
+            }
+        }).catch((err) => {
+            res.status(400).send({
+                success: false,
+                message: 'Something Went Wrong',
+                err
+            })
+        })
+    })
+
+    //Delete One Client
+    .delete((req, res, next) => {
+        const clientId = req.params.clientId;
+        Clients.findById(clientId).then((client) => {
+            const productId = req.params.productId;
+            if (client && client.products.id(productId)) {
+                client.products.id(productId).remove();
+                client.save().then((product) => {
+                    res.status(200).send({
+                        success: true,
+                        message: `Client's Product with ID: ${productId} deleted`,
+                        product
+                    })
+                }).catch((err) => {
+                    res.status(404).send({
+                        success: false,
+                        message: 'Product not Found',
+                        err
+                    })
+                })
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: 'Client or Product no Found'
+                })
+            }
+        })
+    });
 
 
 module.exports = clientsRouter;
