@@ -334,5 +334,26 @@ clientsRouter.route('/:clientId/brokers/:userId')
         })
     });
 
+//Client's Products
+Clients.route('/:clientId/products')
+
+//Get all products
+    .get((req,res,next)=>{
+    const clientId = req.params.clientId;
+
+    Clients.findById(clientId).then((client)=>{
+        res.status(200).send({
+            success: true,
+            message: 'Client\'s products retrieved',
+            products: client.products
+        })
+    }).catch((err)=>{
+        res.status(404).send({
+            success: false,
+            message: 'Client not Found'
+        })
+    })
+});
+
 
 module.exports = clientsRouter;
