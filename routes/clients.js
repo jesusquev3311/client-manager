@@ -538,7 +538,7 @@ clientsRouter.route('/:clientId/products/:productId')
             } else {
                 res.status(404).send({
                     success: false,
-                    message: 'Client or Product no Found'
+                    message: 'Client or Product not Found'
                 })
             }
         })

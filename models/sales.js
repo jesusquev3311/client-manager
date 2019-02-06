@@ -7,7 +7,7 @@ const salesSchema = new Schema({
         required: true,
         default: 0
     },
-    Amount:{
+    amount:{
         type: Number,
         required: true,
         default: 0
