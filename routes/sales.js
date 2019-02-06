@@ -85,4 +85,19 @@ salesRouter.route('/')
     })
 })
 
+//Single Sale Controller
+salesRouter.route('/:saleId')
+
+//Get Sale
+.get((req,res,next)=>{
+    const saleId = req.params.saleId;
+    Sales.findById(saleId).then((sale)=>{
+        res.status(200).send({
+            success:true,
+            message: "Sale retrieved Successfully",
+            sale: sale
+        })
+    })
+})
+
 module.exports = salesRouter;
