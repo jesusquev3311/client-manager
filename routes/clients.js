@@ -423,10 +423,10 @@ clientsRouter.route('/:clientId/products')
         })
     });
 
-//Clients Single Broker
+//Clients Single Product
 clientsRouter.route('/:clientId/products/:productId')
 
-//get One Client's Broker
+//get One Client's Product
     .get((req, res, next) => {
         //get the client's ID
         const clientId = req.params.clientId;
@@ -461,7 +461,7 @@ clientsRouter.route('/:clientId/products/:productId')
         })
     })
 
-    //Post Broker
+    //Post Product
     .post((req, res) => {
         res.status(403).send({
             success: true,
@@ -469,7 +469,7 @@ clientsRouter.route('/:clientId/products/:productId')
         })
     })
 
-    //Update single Broker
+    //Update single Product
     .put((req, res, next) => {
         const clientId = req.params.clientId;
         Clients.findById(clientId).then((client) => {
@@ -515,7 +515,7 @@ clientsRouter.route('/:clientId/products/:productId')
         })
     })
 
-    //Delete One Client
+    //Delete One Client's product
     .delete((req, res, next) => {
         const clientId = req.params.clientId;
         Clients.findById(clientId).then((client) => {
