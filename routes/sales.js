@@ -100,4 +100,50 @@ salesRouter.route('/:saleId')
     })
 })
 
+//Post sale
+.post((res)=>{
+    res.statusCode(200).send({
+        success: true,
+        message: 'Post is not allowed in Sale'
+    })
+})
+
+//Update single sale
+.put((res,req,next)=>{
+    const saleId = req.params.saleId;
+    Sales.findByIdAndUpdate(saleId, {$set: req.body}, {new:true})
+    .then((sale)=>{
+        res.status(200).send({
+            success: true,
+            message: "Sale updated successfully",
+            sale
+        })
+    })
+    .catch((err)=>{
+        res.status(404).send({
+            success: false,
+            message: "client Not Found",
+            error: err
+        })
+    });
+})
+
+//Delete one sale
+.delete((res,req,next)=>{
+    const saleId = req.params.saleId;
+    Sales.findByIdAndRemove(saleId).then((sale)=>{
+        res.status(200).send({
+            success: true,
+            message: `Sale with ID: ${saleId} Deleted`,
+            sale
+        })
+    }).catch((err)=>{
+        res.status(404).send({
+            success: false,
+            message: "Sale Not Found Please try again",
+            err
+        })
+    })
+})
+
 module.exports = salesRouter;
