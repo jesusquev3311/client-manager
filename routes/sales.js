@@ -98,38 +98,39 @@ salesRouter.route('/:saleId')
             sale: sale
         })
     })
+    .catch((err)=>{
+        res.status(404).send({
+            success:false,
+            message: "Sale not Found",
+            err
+        })
+    })
 })
 
 //Post sale
-.post((res)=>{
-    res.statusCode(200).send({
+.post((req,res)=>{
+    res.status(200).send({
         success: true,
         message: 'Post is not allowed in Sale'
     })
 })
 
 //Update single sale
-.put((res,req,next)=>{
+.put((req,res,next) =>{
     const saleId = req.params.saleId;
-    Sales.findByIdAndUpdate(saleId, {$set: req.body}, {new:true})
-    .then((sale)=>{
+
+    Sales.findByIdAndUpdate(saleId, { $set: req.body}, { new: true })
+    .then((response)=>{
         res.status(200).send({
-            success: true,
-            message: "Sale updated successfully",
-            sale
+            success:true,
+            message: 'Sale Updated',
+            response
         })
     })
-    .catch((err)=>{
-        res.status(404).send({
-            success: false,
-            message: "client Not Found",
-            error: err
-        })
-    });
 })
 
 //Delete one sale
-.delete((res,req,next)=>{
+.delete((req, res,next)=>{
     const saleId = req.params.saleId;
     Sales.findByIdAndRemove(saleId).then((sale)=>{
         res.status(200).send({
