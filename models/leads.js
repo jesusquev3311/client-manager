@@ -2,9 +2,9 @@
 
 const mongoose = require('mongoose');
 //adding the currency type to mongoose 
-require('mongoose-currency').loadType(moongose);
-const currency = moongose.Types.Currency
-const Schema = mongoose.schema;
+require('mongoose-currency').loadType(mongoose);
+const currency = mongoose.Types.Currency;
+const Schema = mongoose.Schema;
 
 const userbroker = new Schema({
     name: {
