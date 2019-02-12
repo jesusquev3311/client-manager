@@ -91,7 +91,7 @@ function auth (req, res, next) {
   
 }
 //require Auth
-app.use(auth);
+//app.use(auth);
 app.use(cors(corsOptions));
 //set routes
 app.use('/', indexRouter);
