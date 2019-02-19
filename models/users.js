@@ -6,11 +6,21 @@ const Schema = mongoose.Schema;
 const usersSchema = new Schema({
     name : {
         type: String,
-        required: true,
+        required: true
+    },
+    username: {
+      type: String,
+      required: true ,
+      unique: true
+    },
+    password: {
+        type: String,
+        required: true
     },
     image:{
         type: String,
-        required: false
+        required: false,
+        default: 'noimage.png'
     },
     email: {
         type: String,

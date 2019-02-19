@@ -11,11 +11,13 @@
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "~4.16.0",
+    "express-session": "^1.15.6",
     "http-errors": "^1.7.1",
     "mongoose": "^5.4.10",
     "mongoose-currency": "^0.2.0",
     "morgan": "~1.9.0",
     "nodemon": "^1.18.9",
-    "pug": "^2.0.3"
+    "pug": "^2.0.3",
+    "session-file-store": "^1.2.0"
   }
 }
