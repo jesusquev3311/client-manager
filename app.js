@@ -77,7 +77,6 @@ function auth(req, res, next) {
         res.status(403).send({
             success: false,
             message: "You're not Authorized",
-            error: new Error(message),
         });
         next(error);
     } else {
@@ -87,16 +86,14 @@ function auth(req, res, next) {
             res.status(403).send({
                 success: false,
                 message: "You're not Authorized",
-                error: new Error(message),
             });
-            next(error);
         }
     }
 
 }
 
 //require Auth
-//app.use(auth);
+app.use(auth);
 app.use(cors(corsOptions));
 //set routes
 app.use('/', indexRouter);

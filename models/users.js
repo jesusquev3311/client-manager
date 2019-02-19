@@ -4,10 +4,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const usersSchema = new Schema({
-    name : {
-        type: String,
-        required: true
-    },
     username: {
       type: String,
       required: true ,
@@ -22,6 +18,10 @@ const usersSchema = new Schema({
         required: false,
         default: 'noimage.png'
     },
+    name : {
+        type: String,
+        required: false
+    },
     email: {
         type: String,
         required: true,
@@ -29,23 +29,23 @@ const usersSchema = new Schema({
     },
     phone:{
         type: Number,
-        required: true
+        required: false
     },
     address: {
         type: String,
-        required: true
+        required: false
     },
     city: {
         type: String,
-        required: true
+        required: false
     },
     zipcode:{
         type: Number,
-        required: true
+        required: false
     },
     country:{
         type: String,
-        required: true
+        required: false
     },
     type: {
         type: String,

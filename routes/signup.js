@@ -14,45 +14,64 @@ singUpRouter.get('/', function (req, res, next) {
 singUpRouter.post('/', (req, res, next) => {
     Users.findOne({username: req.body.username})
         .then((user) => {
-            if (!user) {
+            if (user != null) {
                 res.status(404).send({
                     success: false,
-                    message: `User ${req.body.username} Not Found`
+                    message: `User ${req.body.username} already exist`
                 })
             } else {
-                res.status(200).send({
-                    success: true,
-                    message: "Sign Up Correctly",
-                    user: Users.create({
-                        username: req.body.username,
-                        password: req.body.password,
-                        name: req.body.name,
-                        email: req.body.email,
-                        phone: req.body.phone,
-                        address: req.body.address,
-                        city: req.body.city,
-                        zipcode: req.body.zipcode,
-                        country: req.body.country,
-                        type: req.body.type
+                if (!req.body.username) {
+                    res.status(403).send({
+                        success: false,
+                        message: 'Username is Required'
                     })
+                }
+
+                if (!req.body.password) {
+                    res.status(403).send({
+                        success: false,
+                        message: 'Password is Required'
+                    })
+                }
+
+
+                if (!req.body.email) {
+                    res.status(403).send({
+                        success: false,
+                        message: 'Email is Required'
+                    })
+                }
+
+               return Users.create({
+                    username: req.body.username,
+                    password: req.body.password,
+                    email: req.body.email,
+                    name: req.body.name,
+                    phone: req.body.phone,
+                    address: req.body.address,
+                    city: req.body.city,
+                    zipcode: req.body.zipcode,
+                    country: req.body.country,
+                    type: req.body.type
                 })
             }
         })
+
         .catch((err) => {
             res.status(401).send({
                 success: false,
                 message: 'There was an error, please check your info',
-                err
+                err : next(err)
             })
         })
 });
 //PUT Operations
-singUpRouter.put('/', function (req, res,next) {
+singUpRouter.put('/', function (req, res, next) {
     res.status(400).send('PUT Request are not Allowed');
 });
 
 //DELETE Operations
-singUpRouter.delete('/', function (req, res,next) {
+singUpRouter.delete('/', function (req, res, next) {
     res.status(400).send('Delete Request are not Allowed');
 });
 
