@@ -59,6 +59,7 @@ app.use(express.urlencoded({extended: false}));
 // app.use(cookieParser('12345-67890-09876-54321'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(cors(corsOptions));
 app.use(session({
     name: "session-id",
     secret: "12345-67890-09876-54321",
@@ -69,7 +70,6 @@ app.use(session({
 app.use('/login',loginRouter);
 app.use('/logout',logoutRouter);
 app.use('/signup',signupRouter);
-
 //user authentification
 function auth(req, res, next) {
     console.log(req.session.user);
@@ -94,7 +94,6 @@ function auth(req, res, next) {
 
 //require Auth
 app.use(auth);
-app.use(cors(corsOptions));
 //set routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
