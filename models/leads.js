@@ -20,20 +20,20 @@ const userbroker = new Schema({
 const productsSchema = new Schema({
     name:{
         type: String,
-        required: true,
-        unique: true
+        required: false,
     },
     description:{
         type: String,
-        required: true
+        required: false
     },
     price:{
         type: currency,
-        required: true
+        required: false,
+        default: 0
     },
     quantity:{
         type: Number,
-        required: true,
+        required: false,
         default: 0
     }
 
@@ -55,19 +55,19 @@ const leadsSchema = new Schema({
     },
     address: {
         type: String,
-        required: true
+        required: false
     },
     city: {
         type: String,
-        required: true
+        required: false
     },
     zipcode:{
         type: Number,
-        required: true
+        required: false
     },
     country:{
         type: String,
-        required: true
+        required: false
     },
     broker:userbroker,
     company:{

@@ -15,9 +15,10 @@ const cors = require('cors');
 const url = 'mongodb://127.0.0.1:27017/capstone';
 
 var corsOptions = {
+    credentials: true,
     origin: 'http://localhost:8080',
-    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204,
+};
 
 //connection to Mongo Database
 let connect = '';

@@ -15,10 +15,9 @@ singUpRouter.get('/', function (req, res, next) {
 singUpRouter.post('/', (req, res, next) => {
     Users.register(new Users({username: req.body.username,email: req.body.email,name: req.body.name}), req.body.password, (err, user) => {
         if (err) {
-            res.status(500).send({
-                success: false,
-                err: err
-            })
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({err: err});
         } else {
             if (!req.body.username) {
                 res.status(403).send({
@@ -48,11 +47,10 @@ singUpRouter.post('/', (req, res, next) => {
                 })
             }
             passport.authenticate('local')(req, res, () => {
-                res.status(200).send({
-                    success: true,
-                    status: "Registration Successfully"
-                })
-            })
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json({success: true, status: 'Registration Successful!'});
+            });
         }
     });
 });
