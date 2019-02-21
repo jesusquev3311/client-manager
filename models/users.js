@@ -1,18 +1,9 @@
 // USERS DATABASE SCHEMA
-
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const usersSchema = new Schema({
-    username: {
-      type: String,
-      required: true ,
-      unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
     image:{
         type: String,
         required: false,
@@ -20,7 +11,7 @@ const usersSchema = new Schema({
     },
     name : {
         type: String,
-        required: false
+        required: true
     },
     email: {
         type: String,
@@ -55,7 +46,7 @@ const usersSchema = new Schema({
 }, {
     timestamps: true
 });
-
+usersSchema.plugin(passportLocalMongoose);
 let Users = mongoose.model('user', usersSchema);
 module.exports = Users;
 

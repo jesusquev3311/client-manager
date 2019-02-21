@@ -6,6 +6,8 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const passport = require('passport');
+const authenticate = require('./authenticate');
 const cors = require('cors');
 
 //database URL
@@ -59,6 +61,7 @@ app.use(express.urlencoded({extended: false}));
 // app.use(cookieParser('12345-67890-09876-54321'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Cors Protocol Options
 app.use(cors(corsOptions));
 app.use(session({
     name: "session-id",
@@ -67,29 +70,26 @@ app.use(session({
     resave: false,
     store: new FileStore()
 }));
-app.use('/login',loginRouter);
-app.use('/logout',logoutRouter);
-app.use('/signup',signupRouter);
+//Passport Auth
+app.use(passport.initialize());
+app.use(passport.session());
+
+// API Login
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/signup', signupRouter);
+
 //user authentification
 function auth(req, res, next) {
-    console.log(req.session.user);
-    if (!req.session.user) {
+    if (!req.user) {
         res.status(403).send({
             success: false,
             message: "You're not Authorized",
         });
         next(error);
     } else {
-        if (req.session.user === 'authenticated') {
-            next()
-        } else {
-            res.status(403).send({
-                success: false,
-                message: "You're not Authorized",
-            });
-        }
+        next()
     }
-
 }
 
 //require Auth
