@@ -13,31 +13,21 @@ const userbroker = new Schema({
     },
     userId:{
         type: String,
-        required: true
+        required: false
     }
 });
 
-const productsSchema = new Schema({
-    name:{
-        type: String,
-        required: false,
-    },
-    description:{
+const notes = new Schema({
+    author:{
         type: String,
         required: false
     },
-    price:{
-        type: currency,
-        required: false,
-        default: 0
-    },
-    quantity:{
-        type: Number,
-        required: false,
-        default: 0
+    description: {
+        type: String,
+        required:false
     }
-
 });
+
 
 const leadsSchema = new Schema({
     name : {
@@ -79,7 +69,7 @@ const leadsSchema = new Schema({
         type: String,
         required: false
     },
-    products:[productsSchema],
+    notes:notes,
     status:{
         type: String,
         required: true,
