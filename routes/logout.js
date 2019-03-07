@@ -9,7 +9,7 @@ logoutRouter.get('/', (req,res,next) =>{
     if(req.session){
         req.session.destroy();
         res.clearCookie('session-id');
-        res.redirect('/');
+        // res.redirect('/');
     } else {
         res.status(403).send({
             success: false,

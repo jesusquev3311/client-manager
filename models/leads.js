@@ -26,7 +26,7 @@ const leadsnotes = new Schema({
         type: String,
         required:false
     }
-});
+},{timestamps: true});
 
 
 const leadsSchema = new Schema({
