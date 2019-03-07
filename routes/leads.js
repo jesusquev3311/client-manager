@@ -362,15 +362,13 @@ leadsRouter.route('/:leadId/brokers/:userId')
 
         Leads.findById(leadId).then((lead) => {
             if (lead){
-                lead.notes.push(req.body);
-
-                console.log('Id: ', lead.id);
+                lead.notes.push(req.body);   
                 lead.save().then((note) => {
 
                     res.status(200).send({
                         success: true,
                         message:'note added correctly',
-                        notes: note.notes
+                        notes: note
                     })
                 })
                     .catch((err)=>{

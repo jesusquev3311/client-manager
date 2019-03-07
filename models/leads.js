@@ -17,7 +17,7 @@ const userbroker = new Schema({
     }
 });
 
-const notes = new Schema({
+const leadsnotes = new Schema({
     author:{
         type: String,
         required: false
@@ -64,12 +64,12 @@ const leadsSchema = new Schema({
         type: String,
         required: false
     },
-    broker:userbroker,
+    broker:[userbroker],
     company:{
         type: String,
         required: false
     },
-    notes:notes,
+    notes:[leadsnotes],
     status:{
         type: String,
         required: true,
