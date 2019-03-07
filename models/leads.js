@@ -2,16 +2,10 @@
 
 const mongoose = require('mongoose');
 //adding the currency type to mongoose 
-require('mongoose-currency').loadType(mongoose);
-const currency = mongoose.Types.Currency;
 const Schema = mongoose.Schema;
 
 const userbroker = new Schema({
     name: {
-        type: String,
-        required: true
-    },
-    userId:{
         type: String,
         required: false
     }
@@ -45,7 +39,7 @@ const leadsSchema = new Schema({
       default: 'noimage.png'
     },
     phone:{
-        type: Number,
+        type: String,
         required: true
     },
     address: {
@@ -73,7 +67,8 @@ const leadsSchema = new Schema({
     status:{
         type: String,
         required: true,
-        default: 'Started'
+        default: 'Started',
+        unique: false
     }
 }, {
     timestamps: true

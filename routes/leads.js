@@ -159,18 +159,14 @@ leadsRouter.route('/:leadId/brokers')
     .post((req, res, next) => {
         const leadId = req.params.leadId;
         Leads.findById(leadId).then((lead) => {
-            lead.brokers.push(req.body);
             if (!req.body.name) {
                 res.status(401).send({
                     success: false,
                     message: 'Broker\'s name is required'
                 })
-            } else if (!req.body.userId) {
-                res.status(401).send({
-                    success: false,
-                    message: 'Broker\'s userId is required'
-                })
             }
+            lead.brokers.push(req.body);
+
             lead.save().then((broker) => {
                 res.status(200).send({
                     success: true,
