@@ -336,215 +336,203 @@ leadsRouter.route('/:leadId/brokers/:userId')
         })
     });
 
-//Client's Products
-// leadsRouter.route('/:leadId/products')
-//
-// //Get all products
-//     .get((req, res, next) => {
-//         const leadId = req.params.leadId;
-//
-//         Leads.findById(leadId).then((lead) => {
-//             res.status(200).send({
-//                 success: true,
-//                 message: 'Lead\'s products retrieved',
-//                 products: lead.products
-//             })
-//         }).catch((err) => {
-//             res.status(404).send({
-//                 success: false,
-//                 message: 'Client not Found'
-//             })
-//         })
-//     })
-//     //Post product
-//     .post((req,res,next)=>{
-//         const leadId = req.params.leadId;
-//
-//         Leads.findById(leadId).then((lead) => {
-//             if (lead){
-//                 lead.products.push(req.body);
-//
-//                 console.log('Id: ', lead.id);
-//                 lead.save().then((product) => {
-//
-//                     res.status(200).send({
-//                         success: true,
-//                         message:'Product added correctly',
-//                         products: product.products
-//                     })
-//                 })
-//                     .catch((err)=>{
-//                         res.status(400).send({
-//                             success:false,
-//                             message: 'Something went wrong',
-//                             err
-//                         })
-//                     })
-//             } else {
-//                 res.status(404).send({
-//                     success: false,
-//                     message: `Client ID : ${leadId} Not Found`
-//                 })
-//             }
-//         })
-//     })
-//
-//     //Update Products
-//     .put((req,res,next)=>{
-//         res.status(403).send({
-//             success: true,
-//             message: 'PUT Operations aren\'t allowed in Leads products'
-//         })
-//     })
-//     //Delete Products
-//     .delete((req,res,next)=>{
-//         const leadId = req.params.leadId;
-//         Leads.findById(leadId).then((lead)=>{
-//             if(lead){
-//                 lead.products = [];
-//                 lead.save().then((response)=>{
-//                     res.status(200).send({
-//                         success:true,
-//                         message: 'CLient\'s Products Deleted Successfully',
-//                         response
-//                     })
-//                 }).catch((err)=>{
-//                     res.status(400).send({
-//                         success:false,
-//                         message: 'Something went worng, please try again',
-//                         err
-//                     })
-//                 })
-//             } else {
-//                 res.status(404).send({
-//                     success:false,
-//                     message: `Client with ID ${leadId} not Found`,
-//                 })
-//             }
-//
-//         })
-//     });
+//Client's notes
+ leadsRouter.route('/:leadId/notes')
+
+//Get all notes
+    .get((req, res, next) => {
+        const leadId = req.params.leadId;
+
+        Leads.findById(leadId).then((lead) => {
+            res.status(200).send({
+                success: true,
+                message: 'Lead\'s notes retrieved',
+                notes: lead.notes
+            })
+        }).catch((err) => {
+            res.status(404).send({
+                success: false,
+                message: 'Client not Found'
+            })
+        })
+    })
+    //Post note
+    .post((req,res,next)=>{
+        const leadId = req.params.leadId;
+
+        Leads.findById(leadId).then((lead) => {
+            if (lead){
+                lead.notes.push(req.body);
+
+                console.log('Id: ', lead.id);
+                lead.save().then((note) => {
+
+                    res.status(200).send({
+                        success: true,
+                        message:'note added correctly',
+                        notes: note.notes
+                    })
+                })
+                    .catch((err)=>{
+                        res.status(400).send({
+                            success:false,
+                            message: 'Something went wrong',
+                            err
+                        })
+                    })
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: `Client ID : ${leadId} Not Found`
+                })
+            }
+        })
+    })
+
+//     //Update notes
+    .put((req,res,next)=>{
+        res.status(403).send({
+            success: true,
+            message: 'PUT Operations aren\'t allowed in Leads notes'
+        })
+    })
+//     //Delete notes
+    .delete((req,res,next)=>{
+        const leadId = req.params.leadId;
+        Leads.findById(leadId).then((lead)=>{
+            if(lead){
+                lead.notes = [];
+                lead.save().then((response)=>{
+                    res.status(200).send({
+                        success:true,
+                        message: 'CLient\'s notes Deleted Successfully',
+                        response
+                    })
+                }).catch((err)=>{
+                    res.status(400).send({
+                        success:false,
+                        message: 'Something went worng, please try again',
+                        err
+                    })
+                })
+            } else {
+                res.status(404).send({
+                    success:false,
+                    message: `Client with ID ${leadId} not Found`,
+                })
+            }
+
+        })
+    });
 
 //Leads Single Broker
-// leadsRouter.route('/:leadId/products/:productId')
+leadsRouter.route('/:leadId/notes/:noteId')
 
 //get One Client's Broker
-//     .get((req, res, next) => {
-//         //get the lead's ID
-//         const leadId = req.params.leadId;
-//         //get the brokers ID
-//         const productId = req.params.productId;
-//
-//         Leads.findById(leadId).then((lead) => {
-//
-//             if (lead && lead.products.id(productId)) {
-//                 res.status(200).send({
-//                     success: true,
-//                     message: `Product found successfully`,
-//                     Product: lead.products.id(productId)
-//                 })
-//             } else if (!lead) {
-//                 res.status(404).send({
-//                     success: false,
-//                     message: `Client with ID ${leadId} Not Found`,
-//                 })
-//             } else {
-//                 res.status(404).send({
-//                     success: false,
-//                     message: `Product with ID ${userId} Not Found`
-//                 })
-//             }
-//         }).catch((err) => {
-//             res.status(400).send({
-//                 success: false,
-//                 messega: 'Something Went Wrong',
-//                 err
-//             })
-//         })
-//     })
-//
+    .get((req, res, next) => {
+        //get the lead's ID
+        const leadId = req.params.leadId;
+        //get the brokers ID
+        const noteId = req.params.noteId;
+
+        Leads.findById(leadId).then((lead) => {
+
+            if (lead && lead.notes.id(noteId)) {
+                res.status(200).send({
+                    success: true,
+                    message: `note found successfully`,
+                    note: lead.notes.id(noteId)
+                })
+            } else if (!lead) {
+                res.status(404).send({
+                    success: false,
+                    message: `Client with ID ${leadId} Not Found`,
+                })
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: `note with ID ${userId} Not Found`
+                })
+            }
+        }).catch((err) => {
+            res.status(400).send({
+                success: false,
+                messega: 'Something Went Wrong',
+                err
+            })
+        })
+    })
 //     //Post Broker
-//     .post((req, res) => {
-//         res.status(403).send({
-//             success: true,
-//             message: 'Post Operations aren\'t allowed in Lead\'s Product'
-//         })
-//     })
-//
-//     //Update single Broker
-//     .put((req, res, next) => {
-//         const leadId = req.params.leadId;
-//         Leads.findById(leadId).then((lead) => {
-//             const productId = req.params.productId;
-//             if (lead && lead.products.id(productId)) {
-//                 if (req.body.name) {
-//                     lead.products.id(productId).name = req.body.name
-//                 }
-//                 if (req.body.description) {
-//                     lead.products.id(productId).description = req.body.description
-//                 }
-//                 if (req.body.price) {
-//                     lead.products.id(productId).price = req.body.price
-//                 }
-//                 if (req.body.quantity) {
-//                     lead.products.id(productId).quantity = req.body.quantity
-//                 }
-//                 lead.save().then((result) => {
-//                     res.status(200).send({
-//                         success: true,
-//                         message: 'Product updated',
-//                         Product: result.products.id(productId)
-//                     })
-//                 }).catch((err) => {
-//                     res.status(401).send({
-//                         success: false,
-//                         message: 'Please check the info - something went wrong',
-//                         err
-//                     })
-//                 })
-//             } else {
-//                 res.status(404).send({
-//                     success: false,
-//                     message: 'Client or Product no Found'
-//                 })
-//             }
-//         }).catch((err) => {
-//             res.status(400).send({
-//                 success: false,
-//                 message: 'Something Went Wrong',
-//                 err
-//             })
-//         })
-//     })
-//
+    .post((req, res) => {
+        res.status(403).send({
+            success: true,
+            message: 'Post Operations aren\'t allowed in Lead\'s note'
+        })
+    })
+
+    //Update single Broker
+    .put((req, res, next) => {
+        const leadId = req.params.leadId;
+        Leads.findById(leadId).then((lead) => {
+            const noteId = req.params.noteId;
+            if (lead && lead.notes.id(noteId)) {
+                
+                lead.save().then((result) => {
+                    res.status(200).send({
+                        success: true,
+                        message: 'note updated',
+                        note: result.notes.id(noteId)
+                    })
+                }).catch((err) => {
+                    res.status(401).send({
+                        success: false,
+                        message: 'Please check the info - something went wrong',
+                        err
+                    })
+                })
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: 'Client or note no Found'
+                })
+            }
+        }).catch((err) => {
+            res.status(400).send({
+                success: false,
+                message: 'Something Went Wrong',
+                err
+            })
+        })
+    })
+
 //     //Delete One Client
-//     .delete((req, res, next) => {
-//         const leadId = req.params.leadId;
-//         Leads.findById(leadId).then((lead) => {
-//             const productId = req.params.productId;
-//             if (lead && lead.products.id(productId)) {
-//                 lead.products.id(productId).remove();
-//                 lead.save().then((product) => {
-//                     res.status(200).send({
-//                         success: true,
-//                         message: `Client's Product with ID: ${productId} deleted`,
-//                         product
-//                     })
-//                 }).catch((err) => {
-//                     res.status(404).send({
-//                         success: false,
-//                         message: 'Product not Found',
-//                         err
-//                     })
-//                 })
-//             } else {
-//                 res.status(404).send({
-//                     success: false,
-//                     message: 'Client or Product no Found'
-//                 })
-//             }
-//         })
-//     });
+    .delete((req, res, next) => {
+        const leadId = req.params.leadId;
+        Leads.findById(leadId).then((lead) => {
+            const noteId = req.params.noteId;
+            if (lead && lead.notes.id(noteId)) {
+                lead.notes.id(noteId).remove();
+                lead.save().then((note) => {
+                    res.status(200).send({
+                        success: true,
+                        message: `Client's note with ID: ${noteId} deleted`,
+                        note
+                    })
+                }).catch((err) => {
+                    res.status(404).send({
+                        success: false,
+                        message: 'note not Found',
+                        err
+                    })
+                })
+            } else {
+                res.status(404).send({
+                    success: false,
+                    message: 'Client or note no Found'
+                })
+            }
+        })
+    });
 
 
 module.exports = leadsRouter;
