@@ -362,8 +362,24 @@ leadsRouter.route('/:leadId/brokers/:userId')
 
         Leads.findById(leadId).then((lead) => {
             if (lead){
-                lead.notes.push(req.body);   
+                lead.notes.push({
+                    author: req.body.author,
+                    description: req.body.description
+                });
                 lead.save().then((note) => {
+                    if(!req.body.author){
+                        res.status(400).send({
+                            success:false,
+                            message: 'Please add an author'
+                        })
+                    }
+
+                    if(!req.body.description){
+                        res.status(400).send({
+                            success:false,
+                            message: 'Please add a description'
+                        })
+                    }
 
                     res.status(200).send({
                         success: true,
