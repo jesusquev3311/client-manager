@@ -58,7 +58,7 @@ const leadsSchema = new Schema({
         type: String,
         required: false
     },
-    broker:[userbroker],
+    broker:userbroker,
     company:{
         type: String,
         required: false
@@ -67,8 +67,7 @@ const leadsSchema = new Schema({
     status:{
         type: String,
         required: true,
-        default: 'Started',
-        unique: false
+        default: 'Started'
     }
 }, {
     timestamps: true
